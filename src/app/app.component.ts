@@ -32,6 +32,7 @@ export class AppComponent {
   closeResult: string = '';
   isEdit = false;
   isShow = false;
+  isChart = false;
   selectedCustomer: any = [];
 
   // Chart customer Type
@@ -196,5 +197,9 @@ export class AppComponent {
     return arr.some(function(arrVal: any) {
       return +arrVal.id === +id;
     });
+  }
+
+  chart() {
+    this.isChart = !this.isChart;
   }
 }
