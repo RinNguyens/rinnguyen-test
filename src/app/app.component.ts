@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
 } from '@angular/core';
 import { CustomersService } from './customers.service';
 import { Observable } from 'rxjs';
@@ -60,6 +61,11 @@ export class AppComponent {
   @ViewChildren(SortDirective)
   headers!: QueryList<SortDirective>;
 
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.customerForm.reset();
+    this.isEdit = false;
+  }
+
   constructor(
     public customerService: CustomersService,
     private modalService: NgbModal,
@@ -106,6 +112,12 @@ export class AppComponent {
       );
   }
 
+  closeModal() {
+    this.isEdit = false;
+    this.customerForm.reset();
+    this.modalService.dismissAll();
+  }
+
   saveCustomer() {
     const value = this.customerForm.value;
     this.customerForm.controls['id'].setValue(this.makeid(4));
@@ -114,6 +126,8 @@ export class AppComponent {
       this.customerService.datas.push(value);
       this.customerService._customers$.next(this.data);
       this.customerService.searchTerm = "";
+      this.isEdit = false;
+      this.customerForm.reset();
       this.ref.detectChanges();
       this.modalService.dismissAll();
     }
@@ -139,8 +153,15 @@ export class AppComponent {
         Object.assign(res, value);
       }
     });
-    this.customerService.datas.push(value);
-    this.customerService._customers$.next(this.data);
+    this.customerService.datas.forEach((res: any) => {
+      if (res.id === value.id) {
+        Object.assign(res, value);
+      }
+    });
+    this.isEdit = false;
+    this.customerForm.reset();
+    // this.customerService.datas.push(value);
+    // this.customerService._customers$.next(this.data);
     this.modalService.dismissAll();
   }
 
