@@ -68,7 +68,7 @@ export class CustomersService {
 
   private _state: State = {
     page: 1,
-    pageSize: 4,
+    pageSize: 30,
     searchTerm: '',
     sortColumn: '',
     sortDirection: '',
@@ -141,11 +141,11 @@ export class CustomersService {
     customers = customers.filter((cus) => matches(cus, searchTerm));
     const total = customers.length;
 
-    // // 3. paginate
-    // customers = customers.slice(
-    //   (page - 1) * pageSize,
-    //   (page - 1) * pageSize + pageSize
-    // );
+    // 3. paginate
+    customers = customers.slice(
+      (page - 1) * pageSize,
+      (page - 1) * pageSize + pageSize
+    );
 
     return of({ customers, total });
   }
