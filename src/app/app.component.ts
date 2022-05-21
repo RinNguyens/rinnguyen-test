@@ -77,6 +77,7 @@ export class AppComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.data = this.customerService.datas;
   }
 
   onSort({ column, direction }: SortEvent) {
@@ -106,10 +107,12 @@ export class AppComponent {
 
   saveCustomer() {
     const value = this.customerForm.value;
+    this.customerForm.controls['id'].setValue(this.makeid(4));
     if (value) {
-      this.data.push(value);
+      // this.data.push(value);
       this.customerService.datas.push(value);
       this.customerService._customers$.next(this.data);
+      this.customerService.searchTerm = "";
       this.ref.detectChanges();
       this.modalService.dismissAll();
     }
@@ -141,6 +144,7 @@ export class AppComponent {
   }
 
   deleteCustomer(cus: any = {}) {
+    console.log(cus);
     const filterCus = this.data.filter((res: any) => res.id !== cus.id);
     this.customerService.datas = filterCus;
     this.customerService._customers$.next(filterCus);
