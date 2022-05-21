@@ -144,7 +144,6 @@ export class AppComponent {
   }
 
   deleteCustomer(cus: any = {}) {
-    console.log(cus);
     const filterCus = this.data.filter((res: any) => res.id !== cus.id);
     this.customerService.datas = filterCus;
     this.customerService._customers$.next(filterCus);
@@ -172,7 +171,6 @@ export class AppComponent {
   }
 
   exportFile(isCustom: boolean) {
-    console.log(11111);
     if (!isCustom) {
       return this.customerService.exportExcel(this.data, 'Customers');
     }
