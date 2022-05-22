@@ -159,6 +159,7 @@ export class AppComponent {
       }
     });
     this.isEdit = false;
+    this.customerService.searchTerm = "";
     this.customerForm.reset();
     // this.customerService.datas.push(value);
     // this.customerService._customers$.next(this.data);
